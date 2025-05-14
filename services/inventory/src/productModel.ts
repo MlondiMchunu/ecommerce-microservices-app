@@ -19,3 +19,6 @@ const ProductSchema: Schema = new Schema({
         type: String
     }
 })
+
+export const ProductModel = mongoose.model<Product>('Product', ProductSchema);
+
