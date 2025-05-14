@@ -11,6 +11,14 @@ class ProductController {
             res.status(500).json({ message: 'Error creating product' });
         }
     }
+    async getAllProducts(req: Request, res: Response) {
+        try {
+            const products = await this.productService.getAllProducts();
+            res.json(products);
+        }catch(error){
+            res.status(50).json({message:'Error retrieving products'});
+        }
+    }
 }
 
 export { ProductController };
