@@ -7,8 +7,10 @@ class ProductController {
         try {
             const product = await this.productService.createProduct(req.body);
             res.status(201).json(product);
-        }catch(error){
-            res.status(500).json({message:'Error creating product'});
+        } catch (error) {
+            res.status(500).json({ message: 'Error creating product' });
         }
     }
 }
+
+export { ProductController };

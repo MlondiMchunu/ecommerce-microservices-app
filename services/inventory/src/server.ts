@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import express from 'express';
 //import {errorHandler} from './middleware/errorHandler';
 //import {logger} from './middleware/logger';
-//import {ProductController} from './productController';
+import { ProductController } from './productController';
 
 const dotenv = require('dotenv');
 dotenv.config();
@@ -22,6 +22,12 @@ mongoose.connect(`mongodb+srv://mlondiemchunu1:${mongo_pass}@cluster0.oveo9.mong
 //implement middlewares
 app.use(express.json());
 
+
+const productController = new ProductController();
+
+app.post('/products', productController.createProduct.bind(productController));
+
 app.listen(port, () => {
     console.log(`Products service is running on port ${port}`)
 })
+
