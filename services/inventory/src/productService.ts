@@ -5,5 +5,11 @@ class ProductService {
         const newProduct = new ProductModel(product);
         return await newProduct.save();
     }
+
+    async getAllProducts(): Promise<Product[]> {
+        return await ProductModel.find().exec();
+    }
 }
+
+
 export { ProductService };

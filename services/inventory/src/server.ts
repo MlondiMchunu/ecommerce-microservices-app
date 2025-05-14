@@ -7,7 +7,6 @@ import { ProductController } from './productController';
 const dotenv = require('dotenv');
 dotenv.config();
 
-const app = express();
 const port = process.env.port;
 const mongo_pass = process.env.mongo_password;
 
@@ -19,11 +18,13 @@ mongoose.connect(`mongodb+srv://mlondiemchunu1:${mongo_pass}@cluster0.oveo9.mong
 });
 
 
+const app = express();
+const productController = new ProductController();
+
+
 //implement middlewares
 app.use(express.json());
 
-
-const productController = new ProductController();
 
 app.post('/products', productController.createProduct.bind(productController));
 

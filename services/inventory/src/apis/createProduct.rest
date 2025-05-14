@@ -1,0 +1,8 @@
+POST http://localhost:3000/products
+Content-Type: application/json 
+
+{
+    "name":"Laptop",
+    "price":999.90,
+    "description":"Macbook Pro 2013"
+}
