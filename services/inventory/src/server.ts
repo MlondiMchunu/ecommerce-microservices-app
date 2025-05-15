@@ -29,7 +29,15 @@ app.use(express.json());
 
 app.post('/products', productController.createProduct.bind(productController));
 app.get('/products', productController.getAllProducts.bind(productController));
-app.get('./products/:id',productController.getProductById.bind(productController));
+
+app.get('/products/:id', async (req: Request, res: Response) => {
+    try {
+      await productController.getProductById(req, res);
+    } catch (error) {
+      res.status(500).json({ message: 'An unexpected error occurred' });
+    }
+  });
+
 //app.delete('/products/:id',productController.deleteProduct.bind(productController));
 //app.delete('/products/:id', (req, res) => productController.deleteProduct(req, res));
 

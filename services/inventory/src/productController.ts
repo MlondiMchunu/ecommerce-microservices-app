@@ -20,22 +20,23 @@ class ProductController {
         }
     }
 
-    async getProductById(req: Request, res: Response) {
+    async getProductById(req: Request, res: Response): Promise<any> {
         try {
-            const product = await this.productService.getProductById(req.params.id);
-            if (!product) {
-                return res.status(404).json({ message: 'Product not found' });
-            }
-            res.json(product);
+          const product = await this.productService.getProductById(req.params.id);
+          if (!product) {
+            return res.status(404).json({ message: 'Product not found' });
+          }
+          res.json(product);
         } catch (error) {
-            res.status(500).json({ message: 'Error retrieving product' });
+          res.status(500).json({ message: 'Error retrieving product' });
         }
-    }
-    async deleteProduct(req: Request, res: Response):Promise<void> {
+      }
+
+    async deleteProduct(req: Request, res: Response): Promise<void> {
         try {
             const success = await this.productService.deleteProduct(req.params.id);
             //if (!success) {
-              //  return res.status(404).json({ message: 'Product not found' })
+            //  return res.status(404).json({ message: 'Product not found' })
             //}
         }
         catch (error) {
