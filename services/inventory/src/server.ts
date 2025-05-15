@@ -9,9 +9,10 @@ dotenv.config();
 const port = 3000;
 
 const mongo_pass = process.env.mongo_password;
+const mongodb_uri = process.env.mongo_uri as string;
 
 
-mongoose.connect(`mongodb+srv://mlondiemchunu1:${mongo_pass}@cluster0.kjrrsxk.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`).then(() => {
+mongoose.connect(mongodb_uri).then(() => {
     console.log('Connected to MongoDB for Products service');
 }).catch((err) => {
     console.error('Error Connecting to MongoDB ', err);
