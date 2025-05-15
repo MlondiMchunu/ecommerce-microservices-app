@@ -43,6 +43,18 @@ class ProductController {
             res.status(500).json({ message: 'Eror deleting product' });
         }
     }
+
+    async updateProduct(req: Request, res: Response) {
+        try {
+            const product = await this.productService.updateProduct(req.params.id, req.body);
+            if (!product) {
+                return res.status(404).json({ message: 'Product not found' });
+            }
+            res.json(product);
+        } catch (error) {
+            res.status(500).json({ message: 'Error updating product' });
+        }
+    }
 }
 
 export { ProductController };
