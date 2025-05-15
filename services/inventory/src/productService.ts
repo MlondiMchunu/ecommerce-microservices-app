@@ -9,6 +9,10 @@ class ProductService {
     async getAllProducts(): Promise<Product[]> {
         return await ProductModel.find().exec();
     }
+
+    async getProductById(id: string): Promise<Product | null> {
+        return await ProductModel.findById(id).exec();
+    }
 }
 
 
