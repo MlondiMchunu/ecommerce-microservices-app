@@ -11,7 +11,6 @@ const port = 3000;
 const mongo_pass = process.env.mongo_password;
 const mongodb_uri = process.env.mongo_uri as string;
 
-
 mongoose.connect(mongodb_uri).then(() => {
     console.log('Connected to MongoDB for Products service');
 }).catch((err) => {
@@ -29,11 +28,8 @@ app.use(express.json());
 
 app.post('/products', productController.createProduct.bind(productController));
 app.get('/products', productController.getAllProducts.bind(productController));
-
 app.get('/products/:id', productController.getProductById.bind(productController));
-
-//app.delete('/products/:id',productController.deleteProduct.bind(productController));
-//app.delete('/products/:id', (req, res) => productController.deleteProduct(req, res));
+app.delete('/products/:id',productController.deleteProduct.bind(productController));
 
 app.listen(port, () => {
     console.log(`Products service is running on port ${port}`)
