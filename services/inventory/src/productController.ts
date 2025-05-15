@@ -31,12 +31,12 @@ class ProductController {
             res.status(500).json({ message: 'Error retrieving product' });
         }
     }
-    async deleteProduct(req: Request, res: Response) {
+    async deleteProduct(req: Request, res: Response):Promise<void> {
         try {
             const success = await this.productService.deleteProduct(req.params.id);
-            if (!success) {
-                return res.status(404).json({ message: 'Product not found' })
-            }
+            //if (!success) {
+              //  return res.status(404).json({ message: 'Product not found' })
+            //}
         }
         catch (error) {
             res.status(500).json({ message: 'Eror deleting product' });
