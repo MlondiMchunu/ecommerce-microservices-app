@@ -15,8 +15,20 @@ class ProductController {
         try {
             const products = await this.productService.getAllProducts();
             res.json(products);
+        } catch (error) {
+            res.status(50).json({ message: 'Error retrieving products' });
+        }
+    }
+
+    async getProductById(req: Request, res: Response) {
+        try {
+            const product = await this.productService.getProductById(req.params.id);
+            if (!product) {
+                return res.status(404).json({ message: 'Product not found' });
+            }
+            res.json(product);
         }catch(error){
-            res.status(50).json({message:'Error retrieving products'});
+            res.status(500).json({message:'Error retrieving product'});
         }
     }
 }
