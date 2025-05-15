@@ -13,6 +13,11 @@ class ProductService {
     async getProductById(id: string): Promise<Product | null> {
         return await ProductModel.findById(id).exec();
     }
+
+    async deleteProduct(id: string): Promise<boolean> {
+        const result = await ProductModel.findByIdAndDelete(id).exec();
+        return result !== null;
+    }
 }
 
 

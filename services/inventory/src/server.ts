@@ -29,6 +29,7 @@ app.use(express.json());
 
 app.post('/products', productController.createProduct.bind(productController));
 app.get('/products', productController.getAllProducts.bind(productController));
+//app.get('/products/:id', productController.getProductById.bind(productController));
 
 app.listen(port, () => {
     console.log(`Products service is running on port ${port}`)
