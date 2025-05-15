@@ -2,7 +2,7 @@ POST http://localhost:3000/products
 Content-Type: application/json 
 
 {
-    "name":"iPhone",
-    "price":1299.90,
-    "description":"iPhone latest release"
+    "name":"Apple Lapton",
+    "price":2299.90,
+    "description":"Macbook Pro Late 2013 13'"
 }
