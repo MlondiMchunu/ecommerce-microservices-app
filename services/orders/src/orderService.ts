@@ -22,6 +22,14 @@ class OrderService {
             return null;
         }
     }
+    async getOrderById(id: string): Promise<OrderEntity | null> {
+        try {
+            return await this.orderRepository.findOneBy({ id });
+        } catch (error) {
+            console.error('Error retireving order by ID:', error);
+            return null;
+        }
+    }
 }
 
 export { OrderService };
