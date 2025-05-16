@@ -1,5 +1,7 @@
 require('reflect-metadata');
 const express = require('express');
+var {AppDataSource} = require('./data-source');
+
 const port = 3002;
 
 const app = express();
