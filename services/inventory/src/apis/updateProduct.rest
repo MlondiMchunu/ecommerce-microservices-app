@@ -1,8 +1,8 @@
-PUT http://localhost:3000/products/6826331b401656ddbeef4b36
+PUT http://localhost:3000/products/682632be401656ddbeef4b2e
 Content-Type: application/json
 
 {
-  "name": "Apple Laptop",
-  "price": "3400",
-  "description": "MacBook Air 2018"
+  "name": "Dell Laptop",
+  "price": "600",
+  "description": "Dell Inspiron Generation 5 laptop"
 }
