@@ -15,3 +15,5 @@ class OrderService {
         }
     }
 }
+
+export {OrderService};
