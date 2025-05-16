@@ -1,4 +1,4 @@
-const { OrderEntity } = require('./orderModel');
+import { OrderEntity } from "./orderModel";
 var { AppDataSource } = require('./data-source');
 
 class OrderService {
@@ -14,6 +14,14 @@ class OrderService {
             return null;
         }
     }
+    async getAllOrders(): Promise<OrderEntity[] | null> {
+        try {
+            return await this.orderRepository.find();
+        } catch (error) {
+            console.error('Error retrieving orders:', error);
+            return null;
+        }
+    }
 }
 
-export {OrderService};
+export { OrderService };
