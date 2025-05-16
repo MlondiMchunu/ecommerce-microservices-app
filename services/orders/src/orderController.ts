@@ -22,6 +22,14 @@ class OrderController {
         const orders = await this.orderService.getAllOrders();
         res.json(orders);
     }
+
+    async getOrderById(req: Request, res: Response): Promise<void> {
+        const order = await this.orderService.getOrderById(req.params.id);
+        if (!order) {
+            res.status(404).json({ message: 'Order not found!' });
+        }
+        res.json(order);
+    }
 }
 
 export { OrderController };
