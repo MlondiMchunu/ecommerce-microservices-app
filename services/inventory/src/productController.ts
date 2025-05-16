@@ -44,7 +44,7 @@ class ProductController {
         }
     }
 
-    async updateProduct(req: Request, res: Response) {
+    async updateProduct(req: Request, res: Response): Promise<any> {
         try {
             const product = await this.productService.updateProduct(req.params.id, req.body);
             if (!product) {

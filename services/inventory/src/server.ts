@@ -30,6 +30,7 @@ app.post('/products', productController.createProduct.bind(productController));
 app.get('/products', productController.getAllProducts.bind(productController));
 app.get('/products/:id', productController.getProductById.bind(productController));
 app.delete('/products/:id',productController.deleteProduct.bind(productController));
+app.put('/products/:id', productController.updateProduct.bind(productController));
 
 app.listen(port, () => {
     console.log(`Products service is running on port ${port}`)
