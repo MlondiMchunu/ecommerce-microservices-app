@@ -1,6 +1,6 @@
-require('reflect-metadata');
+import 'reflect-metadata';
 const express = require('express');
-const { OrderController } = require('/orderController');
+const { OrderController } = require('./orderController');
 var { AppDataSource } = require('./data-source');
 
 const port = 3002;

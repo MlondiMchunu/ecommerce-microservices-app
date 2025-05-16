@@ -1,0 +1,12 @@
+POST http://localhost:3002/orders 
+Content-Type: application/json
+
+{
+    "userId": "9910",
+    "productIds": [
+        "8810",
+        "8811"
+    ],
+    "total": "1299.50",
+    "status": "pending"
+}

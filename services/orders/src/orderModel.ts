@@ -1,19 +1,19 @@
-const { Entity, PrimaryGeneratedColumn, Column, BaseEntity } = require('typeorm');
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
 
 @Entity()
 export class OrderEntity extends BaseEntity {
-    @PrimaryGeneratedColumn('uuid')
-    id!: string;
+  @PrimaryGeneratedColumn('uuid')
+  id!: string
 
-    @Column()
-    userId!: string;
+  @Column()
+  userId!: string;
 
-    @Column()
-    productsIds!: string[];
+  @Column("simple-array")
+  productIds!: string[];
 
-    @Column('decimal')
-    total!: number;
+  @Column('decimal')
+  total!: number;
 
-    @Column()
-    status!: string
+  @Column()
+  status!: string;
 }
