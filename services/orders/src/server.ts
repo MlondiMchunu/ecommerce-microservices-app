@@ -11,6 +11,7 @@ const orderController = new OrderController();
 app.use(express.json());
 
 app.post('/orders', orderController.createOrder.bind(orderController));
+app.get('/orders', orderController.getAllOrders.bind(orderController));
 
 
 //initialize the connection and handle errors
@@ -20,8 +21,8 @@ AppDataSource.initialize()
             console.log(`Orders service is running on port ${port}`)
         });
     })
-    .then(()=>{
+    .then(() => {
         console.log(`Order service DB connected succesfully`);
 
     })
-     .catch((error: Error) => console.log(`Order service database connection error`, error));
+    .catch((error: Error) => console.log(`Order service database connection error`, error));
