@@ -1,0 +1,8 @@
+PUT http://localhost:3000/products/6826331b401656ddbeef4b36
+Content-Type: application/json
+
+{
+  "name": "Apple Laptop",
+  "price": "3400",
+  "description": "MacBook Air 2018"
+}

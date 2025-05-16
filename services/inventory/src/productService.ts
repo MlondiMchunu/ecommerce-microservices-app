@@ -12,14 +12,14 @@ class ProductService {
 
     async getProductById(id: string): Promise<Product | null> {
         return await ProductModel.findById(id).exec();
-      }
+    }
 
     async deleteProduct(id: string): Promise<boolean> {
         const result = await ProductModel.findByIdAndDelete(id).exec();
         return result !== null;
     }
-    async updateProduct(id:string,updatedData:Partial<Product>):Promise<Product | null>{
-return await ProductModel.findByIdAndUpdate(id,updatedData,{new:true}).exec();
+    async updateProduct(id: string, updatedData: Partial<Product>): Promise<Product | null> {
+        return await ProductModel.findByIdAndUpdate(id, updatedData, { new: true }).exec();
     }
 }
 
