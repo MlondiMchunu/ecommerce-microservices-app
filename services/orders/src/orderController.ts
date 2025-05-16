@@ -14,7 +14,9 @@ class OrderController {
             return res.status(201).json(newOrder);
         } catch (error) {
             console.error('Error creating order:', error);
-            return res.status(500).json({message:'Error creating order'});
+            return res.status(500).json({ message: 'Error creating order' });
         }
     }
 }
+
+export { OrderController };
