@@ -38,6 +38,15 @@ class OrderController {
             res.status(404).json({ message: `Order not found` });
         }
     }
+
+    async deleteOrder(req: Request, res: Response): Promise<void> {
+        const success = await this.orderService.deleteOrder(req.params.id);
+        if (success) {
+            res.status(204).send();
+        } else {
+            res.status(404).json({ message: 'Order not found' });
+        }
+    }
 }
 
 export { OrderController };
