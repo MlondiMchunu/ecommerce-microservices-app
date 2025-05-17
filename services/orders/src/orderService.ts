@@ -30,6 +30,19 @@ class OrderService {
             return null;
         }
     }
+    async updateOrderStatus(id: string, status: string): Promise<OrderEntity | null> {
+        try {
+            const order = await this.orderRepository.findOneBy({ id });
+            if (order) {
+                order.status = status;
+                await this.orderRepository.save(order);
+            }
+            return order;
+        } catch (error) {
+            console.error(`Error updating order by ID: `, error);
+            return null;
+        }
+    }
 }
 
 export { OrderService };
