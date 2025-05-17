@@ -15,7 +15,7 @@ services:
     image: mongo:4.4
     container_name: mongo-inventory
     environment:
-      MONGO_INITDB_DATABASE: ecommerce
+      MONGO_URI: "mongodb+srv://mlondiemchunu1:${mongo_password}@cluster0.kjrrsxk.mongodb.net/ecommerce?retryWrites=true&w=majority&appName=Cluster0"
     ports:
       - "27017:27017"
     volumes:

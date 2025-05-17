@@ -11,12 +11,19 @@ const port = 3001;
 const mongo_pass = process.env.mongo_password;
 const mongodb_uri = process.env.mongo_uri as string;
 
-mongoose.connect(mongodb_uri).then(() => {
-    console.log('Connected to MongoDB for Products service');
-}).catch((err:string) => {
-    console.error('Error Connecting to MongoDB ', err);
-});
-
+const connectDB = async () => {
+    try {
+        const conn = await mongoose.connect(mongodb_uri, {
+            serverSelectionTimeoutMS: 5000,
+            socketTimeoutMS: 45000,
+        });
+        console.log(`MongoDB Connected: ${conn.connection.host}`);
+    } catch (error: any) {
+        console.error(`Error: ${error.message}`);
+        process.exit(1);
+    }
+};
+connectDB();
 
 const app = express();
 const productController = new ProductController();
