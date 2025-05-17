@@ -1,0 +1,43 @@
+
+services:
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: orders
+    ports: 
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  mongo-inventory:
+    image: mongo:4.4
+    container_name: mongo-inventory
+    environment:
+      MONGO_INITDB_DATABASE: ecommerce
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-inventory-data:/data/db
+  orders-service:
+    build: ./services/orders
+    ports:
+      - "3002:3002"
+    depends_on:
+      - postgres
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: orders
+  inventory-service:
+    build: ./services/inventory
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo-inventory
+volumes:
+  postgres-data:
+  mongo-inventory-data:

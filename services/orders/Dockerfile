@@ -1,29 +1,30 @@
 # Stage 1: Build the application
-FROM node:20
+FROM node:20-alpine AS builder
 
 #Set working directory
 WORKDIR /app
 
 #Install Dependencies
 COPY package.json package-lock.json ./
-RUN npm Install
+RUN npm install
 
 #Copy source code
 COPY tsconfig.json ./
-COPY src/ ./src
+COPY src ./src
 
 #Build the application
 RUN npm run build
 
 #Stage 2: Run the application
-FROM node:20
+FROM node:20-alpine
 
 #Set working directory
 WORKDIR /app
 
-#Copy built files from builder
+# Copy built files from builder
 COPY --from=builder /app/dist ./dist
-COPY package.json ./
+COPY --from=builder /app/package.json ./
+COPY --from=builder /app/package-lock.json ./
 
 #Install product dependencies
 RUN npm Install --only=production
@@ -32,4 +33,4 @@ RUN npm Install --only=production
 EXPOSE 3002
 
 #Start the application
-CMD ["node","dist/server.js"]
+CMD ["node", "dist/server.js"]
