@@ -14,6 +14,7 @@ app.post('/orders', orderController.createOrder.bind(orderController));
 app.get('/orders', orderController.getAllOrders.bind(orderController));
 app.get('/orders/:id', orderController.getOrderById.bind(orderController));
 app.put('/orders/:id', orderController.updateOrderStatus.bind(orderController));
+app.delete('/orders/:id',orderController.deleteOrder.bind(orderController));
 
 
 //initialize the connection and handle errors
