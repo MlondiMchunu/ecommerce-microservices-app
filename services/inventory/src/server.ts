@@ -6,7 +6,7 @@ const { ProductController } = require('./productController');
 
 const dotenv = require('dotenv');
 dotenv.config();
-const port = 3000;
+const port = 3001;
 
 const mongo_pass = process.env.mongo_password;
 const mongodb_uri = process.env.mongo_uri as string;

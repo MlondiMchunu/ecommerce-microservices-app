@@ -27,7 +27,7 @@ COPY --from=builder /app/package.json ./
 COPY --from=builder /app/package-lock.json ./
 
 #Install product dependencies
-RUN npm Install --only=production
+RUN npm install --only=production
 
 #Expose port
 EXPOSE 3002
