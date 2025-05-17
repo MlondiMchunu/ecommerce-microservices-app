@@ -30,8 +30,13 @@ class OrderController {
         }
         res.json(order);
     }
-    async updateOrderStatus(req:Request,res:Response):Promise<void>{
-        const updatedOrder = await this.orderService.updateOrderStatus(req.params.id,req.body.status);
+    async updateOrderStatus(req: Request, res: Response): Promise<void> {
+        const updatedOrder = await this.orderService.updateOrderStatus(req.params.id, req.body.status);
+        if (updatedOrder) {
+            res.json(updatedOrder);
+        } else {
+            res.status(404).json({ message: `Order not found` });
+        }
     }
 }
 
