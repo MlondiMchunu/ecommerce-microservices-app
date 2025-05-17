@@ -43,6 +43,15 @@ class OrderService {
             return null;
         }
     }
+    async deleteOrder(id: string): Promise<boolean> {
+        try {
+            const result = await this.orderRepository.delete(id);
+            return result.affected !== 0;
+        } catch (error) {
+            console.error('Eror deleting order by ID:', error);
+            return false;
+        }
+    }
 }
 
 export { OrderService };
