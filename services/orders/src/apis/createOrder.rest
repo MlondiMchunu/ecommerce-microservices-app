@@ -4,9 +4,9 @@ Content-Type: application/json
 {
     "userId": "9910",
     "productIds": [
-        "8810",
-        "8811"
+        "8812",
+        "8815"
     ],
-    "total": "1299.50",
-    "status": "pending"
+    "total": "299.50",
+    "status": "completed"
 }

@@ -30,6 +30,9 @@ class OrderController {
         }
         res.json(order);
     }
+    async updateOrderStatus(req:Request,res:Response):Promise<void>{
+        const updatedOrder = await this.orderService.updateOrderStatus(req.params.id,req.body.status);
+    }
 }
 
 export { OrderController };
