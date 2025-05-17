@@ -1,5 +1,5 @@
 # ecommerce-microservices-app
-This is an Inventory and Order service for a microservices e-commerce application.
+This is an Inventory, Order and Users service for a microservices e-commerce application.
 
 The project structure is of type Model-Service-Controller pattern, essential for maintaining clean, modular, and scalable code:
 
