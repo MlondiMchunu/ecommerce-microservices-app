@@ -13,3 +13,8 @@ The project structure is of type Model-Service-Controller pattern, essential for
       git clone https://github.com/MlondiMchunu/ecommerce-microservices-app.git
   ### 2. install docker and navigate to the project directory and run: 
       docker compose up --build 
+
+## testing apis
+  ### 1. inventory service
+  ### 2. orders service
+  ### 3. users service
