@@ -9,9 +9,7 @@ The project structure is of type Model-Service-Controller pattern, essential for
 
 
 ## steps to running the project
-  ### 1.
-    - clone the project to your local machine
-  ### 2. 
-    - install docker
-    - navigate to the project directory and run: 
-       - docker compose up --build 
+  ### 1. clone the project to your local machine
+      git clone https://github.com/MlondiMchunu/ecommerce-microservices-app.git
+  ### 2. install docker and navigate to the project directory and run: 
+      docker compose up --build 
