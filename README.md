@@ -8,6 +8,10 @@ The project structure is of type Model-Service-Controller pattern, essential for
 ![image](https://github.com/user-attachments/assets/de15049a-e290-4afe-aab8-0309ad184ad8)
 
 
-#
-![image](https://github.com/user-attachments/assets/18a48817-034f-42d0-b1fc-ac6fd0c502f9)
-
+## steps to running the project
+  ### 1.
+    - clone the project to your local machine
+  ### 2. 
+    - install docker
+    - navigate to the project directory and run: 
+       - docker compose up --build 
