@@ -5,7 +5,7 @@
   "main": "./src/server.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev":"nodemon ./src/server.ts"
+    "dev": "nodemon ./src/server.ts"
   },
   "author": "Mlondi",
   "license": "ISC",
@@ -15,6 +15,7 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "mongoose": "^8.15.0"
   }
