@@ -1,0 +1,1 @@
+DELETE http://localhost:3002/orders/f1599755-dfea-4b8d-9a8a-39078a8d072b
