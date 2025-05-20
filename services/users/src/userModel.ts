@@ -19,6 +19,9 @@ const UserSchema: Schema = new Schema({
     email: {
         type: String,
         required: true
+    },
+    orderIds: {
+        type: String
     }
 })
 
