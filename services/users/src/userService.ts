@@ -6,3 +6,5 @@ class UserService {
         return await newUser.save();
     }
 }
+
+export { UserService };
