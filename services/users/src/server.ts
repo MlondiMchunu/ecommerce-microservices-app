@@ -1,9 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import { UserController } from './userController';
 require('dotenv').config();
-
-const app = express();
-const port = 3003;
 
 const mongodb_uri = process.env.mongo_uri as string;
 
@@ -20,11 +18,15 @@ const connectDB = async () => {
         process.exit(1);
     }
 }
-
 connectDB();
 
+const app = express();
+const port = 3003;
 
+const userController = new UserController();
 app.use(express.json());
+
+app.post('/users',userController.createUser.bind(userController));
 
 app.listen(port, () => {
     console.log(`User service connected to port ${port}`);
