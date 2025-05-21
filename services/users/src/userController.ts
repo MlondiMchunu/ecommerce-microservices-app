@@ -20,15 +20,25 @@ class UserController {
             res.status(500).json({ message: 'Error retrieving users' });
         }
     }
-    async getUserById(req: Request, res: Response):Promise<any> {
+    async getUserById(req: Request, res: Response): Promise<any> {
         try {
             const user = await this.userService.getUserById(req.params.id);
-            if(!user){
-                return res.status(404).json({message:'User not found'});
+            if (!user) {
+                return res.status(404).json({ message: 'User not found' });
             }
-           res.status(201).json(user);
+            res.status(201).json(user);
         } catch (error) {
             res.status(500).json({ message: 'Error retrieving user', error });
+        }
+    }
+    async updateUser(req: Request, res: Response): Promise<any> {
+        try {
+            const user = await this.userService.updateUser(req.params.id, req.body);
+            if (!user) {
+                return res.status(404).json({ message: 'User not found!' });
+            } res.json(user);
+        } catch (error) {
+            res.status(500).json({ message: 'Error updating user!' });
         }
     }
 }
