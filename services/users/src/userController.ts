@@ -12,6 +12,14 @@ class UserController {
             res.status(500).json({ message: 'Error creating user!', error })
         }
     }
+    async getAllUsers(req:Request,res:Response){
+        try{
+            const users = await this.userService.getAllUsers();
+            res.status(201).json(users);
+        }catch(error){
+            res.status(500).json({message:'Error retrieving users'});
+        }
+    }
 }
 
 export { UserController };
