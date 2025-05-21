@@ -11,6 +11,9 @@ class UserService {
     async getUserById(id: string): Promise<typeof User | null> {
         return await UserModel.findById(id).exec();
     }
+    async updateUser(id: string, updatedData: Partial<typeof User>): Promise<typeof User> {
+        return await UserModel.findByIdAndUpdate(id, updatedData, { new: true }).exec();
+    }
 }
 
 export { UserService };
