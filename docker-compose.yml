@@ -20,6 +20,15 @@ services:
       - "27017:27017"
     volumes:
       - mongo-inventory-data:/data/db
+
+  mongo-users:
+    image: mongo:4.4
+    container_name: mongo-users
+    environment:
+      - MONGO_URI= value
+    volumes: 
+      - mongo-users-data:/data/db
+
   orders-service:
     build: ./services/orders
     ports:
@@ -38,6 +47,12 @@ services:
       - "3001:3001"
     depends_on:
       - mongo-inventory
+  users-service:
+    build: ./services/users
+    ports: 
+      - "3003:3003"
+    depends_on:
+      - mongo-users
 volumes:
   postgres-data:
   mongo-inventory-data:

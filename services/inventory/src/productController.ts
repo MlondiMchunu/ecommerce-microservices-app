@@ -40,7 +40,7 @@ class ProductController {
             }
         }
         catch (error) {
-            res.status(500).json({ message: 'Eror deleting product' });
+            res.status(500).json({ message: 'Error deleting product' });
         }
     }
 
