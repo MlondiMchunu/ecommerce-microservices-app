@@ -30,4 +30,4 @@ COPY --from=builder /app/package-lock.json ./
 RUN npm install --only=production
 
 #Expose port
-EXPOSE 3001
+EXPOSE 3003
