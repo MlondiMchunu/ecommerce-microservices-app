@@ -1,0 +1,9 @@
+POST http://localhost:3003/users
+Content-Type: application/json
+
+{
+    "id":"9910",
+    "name":"Mlo",
+    "email":"mlo@dev.com",
+    "orderIds":"d6b1e903-428f-4d7d-9fa1-4b2fc2aeb3f4"
+}
