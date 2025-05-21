@@ -26,8 +26,8 @@ const port = 3003;
 const userController = new UserController();
 app.use(express.json());
 
-app.post('/users',userController.createUser.bind(userController));
-app.get('/users',userController.getAllUsers.bind(userController));
+app.post('/users', userController.createUser.bind(userController));
+app.get('/users', userController.getAllUsers.bind(userController));
 
 app.listen(port, () => {
     console.log(`User service connected to port ${port}`);
