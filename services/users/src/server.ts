@@ -30,6 +30,7 @@ app.post('/users', userController.createUser.bind(userController));
 app.get('/users', userController.getAllUsers.bind(userController));
 app.get('/users/:id', userController.getUserById.bind(userController));
 app.put('/users/:id', userController.updateUser.bind(userController));
+app.delete('/users/:id',userController.deleteUser.bind(userController));
 
 app.listen(port, () => {
     console.log(`User service connected to port ${port}`);
