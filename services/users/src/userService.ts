@@ -5,6 +5,9 @@ class UserService {
         const newUser = new UserModel(user);
         return await newUser.save();
     }
+    async getAllUsers():Promise<typeof User[]>{
+        return await UserModel.find().exec();
+    }
 }
 
 export { UserService };
