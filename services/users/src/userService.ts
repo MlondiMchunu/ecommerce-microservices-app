@@ -14,6 +14,10 @@ class UserService {
     async updateUser(id: string, updatedData: Partial<typeof User>): Promise<typeof User> {
         return await UserModel.findByIdAndUpdate(id, updatedData, { new: true }).exec();
     }
+    async deleteUser(id: string): Promise<boolean> {
+        const result = await UserModel.findByIdAndDelete(id).exec();
+        return result !== null;
+    }
 }
 
 export { UserService };
