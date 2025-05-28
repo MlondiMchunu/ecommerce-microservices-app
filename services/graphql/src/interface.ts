@@ -4,3 +4,10 @@ export declare interface User {
     orders: string[];
 }
 
+export declare interface Order {
+    id: string;
+    userId: string;
+    products: string[];
+    total: number;
+    status: string;
+}
