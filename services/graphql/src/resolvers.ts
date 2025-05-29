@@ -8,7 +8,7 @@ import { User, Order, Product } from './interface'; //import the interfaces
 const orderLoader = new DataLoader<string, Order[]>(async (userIds: readonly string[]) => {
 
     try {
-        const response = await axios.get(`http://orders-service:3002`, {
+        const response = await axios.get(`http://orders-service:3002/orders`, {
             params: { userIds: userIds.join(',') }
         });
         console.log('Order Loader Response:', response.data);
