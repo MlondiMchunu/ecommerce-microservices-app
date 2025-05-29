@@ -28,9 +28,23 @@ const productLoader = new DataLoader(async (productIds: readonly string[]) => {
         });
         console.log('Product Loader Response:', response.data);
         const products = response.data || [];
-        return productIds.map(productId => products.find((product: Product) => product._id === productId))
+        return productIds.map(productId => products.find((product: Product) => product.id === productId))
     } catch (error) {
         console.error('Error fetching products:', error);
-        return productIds.map(()=> new Error('Error fetching products'));
+        return productIds.map(() => new Error('Error fetching products'));
+    }
+});
+
+const userLoader = new DataLoader(async (userIds: readonly string[]) => {
+    try {
+        const response = await axios.get(`http://user-service:3003/users`, {
+            params: { ids: userIds.join(',') }
+        });
+        console.log('User Loader Response:', response.data);
+        const users = response.data || [];
+        return userIds.map((userIds => users.filter((user: User) => user.id === userIds)));
+    } catch (error) {
+        console.error('Error fetching users:', error);
+        return userIds.map(() => new Error('Error fetching users'));
     }
 });
