@@ -37,7 +37,7 @@ const productLoader = new DataLoader(async (productIds: readonly string[]) => {
 
 const userLoader = new DataLoader(async (userIds: readonly string[]) => {
     try {
-        const response = await axios.get(`http://user-service:3003/users`, {
+        const response = await axios.get(`http://users-service:3003/users`, {
             params: { ids: userIds.join(',') }
         });
         console.log('User Loader Response:', response.data);
@@ -48,3 +48,30 @@ const userLoader = new DataLoader(async (userIds: readonly string[]) => {
         return userIds.map(() => new Error('Error fetching users'));
     }
 });
+
+export const resolvers = {
+    Query: {
+        user: async (_: any, { id }: { id: string }): Promise<User | { message: string }> => {
+            try {
+                const userResponse = await axios.get(`http://users-service:3003/users/${id}`);
+                const user = userResponse.data;
+                if (user) {
+                    const orders = await orderLoader.load(user.id);
+                    const ordersWithProducts = await Promise.all(orders.map(async (order: Order) => {
+                        const products = await productLoader.loadMany(order.id);
+                        const nonNullProducts = products
+                            .filter((product: Product) => !(product instanceof Error) && product !== null)
+                            .map((product: Product) => ({ ...product, id: product.id }));
+                        return { ...order, id: order.id, products: nonNullProducts };
+                    }));
+                    return { ...user, id: user.id, orders: ordersWithProducts };
+                } else {
+                    return { message: 'User not found' };
+                }
+            } catch (error) {
+                console.error('Error fetching user:', error);
+                throw new Error('Error fetching user');
+            }
+        }
+    }
+}
