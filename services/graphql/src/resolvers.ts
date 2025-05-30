@@ -72,6 +72,30 @@ export const resolvers = {
                 console.error('Error fetching user:', error);
                 throw new Error('Error fetching user');
             }
-        }
+        },
+        users: async (): Promise<User[]> => {
+            try {
+                const response = await axios.get('<http://users-service:3003/users>');
+                const users: User[] = response.data;
+                if (users && users.length > 0) {
+                    return Promise.all(users.map(async (user: User) => {
+                        const orders = await orderLoader.load(user.id);
+                        const ordersWithProducts = await Promise.all(orders.map(async (order: Order) => {
+                            const products = await productLoader.loadMany(order.products);
+                            const nonNullProducts = products
+                                .filter((product: Product) => !(product instanceof Error) && product !== null)
+                                .map((product: Product) => ({ ...product, id: product.id }));
+                            return { ...order, id: order.id, products: nonNullProducts };
+                        }));
+                        return { ...user, id: user.id, orders: ordersWithProducts };
+                    }));
+                } else {
+                    return [];
+                }
+            } catch (error) {
+                console.error('Error fetching users:', error);
+                throw new Error('Error fetching users');
+            }
+        },
     }
 }
