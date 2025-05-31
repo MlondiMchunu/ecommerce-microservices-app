@@ -101,5 +101,12 @@ export const resolvers = {
             const response = await axios.get(`http://inventoy-service:3001/products/ ${id}`);
             return { ...response.data, id: response.data.id };
         },
-       
+        products: async():Promise<Product[]>=>{
+            const response = await axios.get('<http://inventory-service:3001/products>');
+            const orders = response.data;
+            if(orders && orders.length > 0){
+                return response.data.map((product: Product)=>({ ...product, id: product.id}));
+            }else return [] as Product[];
+        }
+    }
 }
