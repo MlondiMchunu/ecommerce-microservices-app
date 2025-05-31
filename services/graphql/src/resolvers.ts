@@ -97,5 +97,9 @@ export const resolvers = {
                 throw new Error('Error fetching users');
             }
         },
-    }
+        product: async (_: any, { id }: { id: string }): Promise<Product> => {
+            const response = await axios.get(`http://inventoy-service:3001/products/ ${id}`);
+            return { ...response.data, id: response.data.id };
+        },
+       
 }
