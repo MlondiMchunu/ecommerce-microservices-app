@@ -108,5 +108,11 @@ export const resolvers = {
                 return response.data.map((product: Product) => ({ ...product, id: product.id }));
             } else return [] as Product[];
         }
+    },
+    Mutation:{
+        createUser:async(_: any, {name,email}:{name:string, email:string}): Promise<User>=>{
+            const response = await axios.put(`<http://users-service:3003/users>`,{name,email});
+            return { ...response.data, id: response.data.id}
+        }
     }
 }
