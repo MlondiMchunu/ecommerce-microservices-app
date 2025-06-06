@@ -109,10 +109,14 @@ export const resolvers = {
             } else return [] as Product[];
         }
     },
-    Mutation:{
-        createUser:async(_: any, {name,email}:{name:string, email:string}): Promise<User>=>{
-            const response = await axios.put(`<http://users-service:3003/users>`,{name,email});
-            return { ...response.data, id: response.data.id}
+    Mutation: {
+        createUser: async (_: any, { name, email }: { name: string, email: string }): Promise<User> => {
+            const response = await axios.post(`<http://users-service:3003/users>`, { name, email });
+            return { ...response.data, id: response.data.id }
+        },
+        updateUser: async (_: any, { id, name, email }: { id: string, name?: string, email?: string }): Promise<User> => {
+            const response = await axios.put(`http://users-service:3003/users/${id}`, { name, email });
+            return { ...response.data, id:response.data.id};
         }
     }
 }
