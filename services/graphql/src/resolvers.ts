@@ -117,6 +117,10 @@ export const resolvers = {
         updateUser: async (_: any, { id, name, email }: { id: string, name?: string, email?: string }): Promise<User> => {
             const response = await axios.put(`http://users-service:3003/users/${id}`, { name, email });
             return { ...response.data, id:response.data.id};
-        }
+        },
+        deleteUser: async(_:any,{id}:{id:string}):Promise<boolean> =>{
+            await axios.delete(`http://users-service:3003/users/${id}`);
+            return true;
+        },
     }
 }
