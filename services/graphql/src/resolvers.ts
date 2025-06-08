@@ -8,7 +8,7 @@ import { User, Order, Product } from './interface'; //import the interfaces
 const orderLoader = new DataLoader<string, Order[]>(async (userIds: readonly string[]) => {
 
     try {
-        const response = await axios.get(`http://orders-service:3002/orders`, {
+        const response = await axios.get(`http://localhost:3002/orders`, {
             params: { userIds: userIds.join(',') }
         });
         console.log('Order Loader Response:', response.data);
@@ -23,7 +23,7 @@ const orderLoader = new DataLoader<string, Order[]>(async (userIds: readonly str
 
 const productLoader = new DataLoader(async (productIds: readonly string[]) => {
     try {
-        const response = await axios.get(`http://inventory-service:3001/products`, {
+        const response = await axios.get(`http://localhost:3001/products`, {
             params: { ids: productIds.join(',') }
         });
         console.log('Product Loader Response:', response.data);
@@ -37,7 +37,7 @@ const productLoader = new DataLoader(async (productIds: readonly string[]) => {
 
 const userLoader = new DataLoader(async (userIds: readonly string[]) => {
     try {
-        const response = await axios.get(`http://users-service:3003/users`, {
+        const response = await axios.get(`http://localhost:3003/users`, {
             params: { ids: userIds.join(',') }
         });
         console.log('User Loader Response:', response.data);
@@ -53,7 +53,7 @@ export const resolvers = {
     Query: {
         user: async (_: any, { id }: { id: string }): Promise<User | { message: string }> => {
             try {
-                const userResponse = await axios.get(`http://users-service:3003/users/${id}`);
+                const userResponse = await axios.get(`http://localhost:3003/users/${id}`);
                 const user = userResponse.data;
                 if (user) {
                     const orders = await orderLoader.load(user.id);
@@ -75,8 +75,9 @@ export const resolvers = {
         },
         users: async (): Promise<User[]> => {
             try {
-                const response = await axios.get('<http://users-service:3003/users>');
+                const response = await axios.get('<http://localhost:3003/users>');
                 const users: User[] = response.data;
+                
                 if (users && users.length > 0) {
                     return Promise.all(users.map(async (user: User) => {
                         const orders = await orderLoader.load(user.id);
@@ -98,11 +99,11 @@ export const resolvers = {
             }
         },
         product: async (_: any, { id }: { id: string }): Promise<Product> => {
-            const response = await axios.get(`http://inventoy-service:3001/products/ ${id}`);
+            const response = await axios.get(`http://localhost:3001/products/ ${id}`);
             return { ...response.data, id: response.data.id };
         },
         products: async (): Promise<Product[]> => {
-            const response = await axios.get('<http://inventory-service:3001/products>');
+            const response = await axios.get('<http://localhost:3001/products>');
             const orders = response.data;
             if (orders && orders.length > 0) {
                 return response.data.map((product: Product) => ({ ...product, id: product.id }));
@@ -112,15 +113,15 @@ export const resolvers = {
     },
     Mutation: {
         createUser: async (_: any, { name, email }: { name: string, email: string }): Promise<User> => {
-            const response = await axios.post(`<http://users-service:3003/users>`, { name, email });
+            const response = await axios.post(`<http://localhost:3003/users>`, { name, email });
             return { ...response.data, id: response.data.id }
         },
         updateUser: async (_: any, { id, name, email }: { id: string, name?: string, email?: string }): Promise<User> => {
-            const response = await axios.put(`http://users-service:3003/users/${id}`, { name, email });
+            const response = await axios.put(`http://localhost:3003/users/${id}`, { name, email });
             return { ...response.data, id: response.data.id };
         },
         deleteUser: async (_: any, { id }: { id: string }): Promise<boolean> => {
-            await axios.delete(`http://users-service:3003/users/${id}`);
+            await axios.delete(`http://localhost:3003/users/${id}`);
             return true;
         },
         createOrder: async (_: any, { userId, productIds }: { userId: string, productIds: string[] }): Promise<Order> => {
@@ -139,7 +140,7 @@ export const resolvers = {
             //Calculate the total price
             const total = (nonNullProducts as Product[]).reduce((sum, product) => sum + (product?.price || 0), 0);
             //SEnd the order creation request to the order service
-            const orderResponse = await axios.post('<http://orders-service:3002/orders>',{
+            const orderResponse = await axios.post('<http://localhost:3002/orders>',{
                 userId,
                 productIds,
                 total,
@@ -150,13 +151,14 @@ export const resolvers = {
             return { ...orderResponse.data, products: nonNullProducts};
         },
         updateOrder: async(_:any,{id,status}:{id:string,status:string}):Promise<Order>=>{
-            const response = await axios.put(`http://orders-service:3002/orders/${id}`,{status});
+            const response = await axios.put(`http://localhost:3002/orders/${id}`,{status});
             const products = await productLoader.loadMany(response.data.productIds);
             return { ...response.data,products};
         },
         deleteOrder: async(_:any,{id}:{id:string}):Promise<boolean>=>{
-            await axios.delete(`http://orders-service:3002/orders/${id}`);
+            await axios.delete(`http://localhost:3002/orders/${id}`);
             return true;
-        }
+        },
+        //... product mutation resolvers
     }
-}
+};
