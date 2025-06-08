@@ -154,5 +154,9 @@ export const resolvers = {
             const products = await productLoader.loadMany(response.data.productIds);
             return { ...response.data,products};
         },
+        deleteOrder: async(_:any,{id}:{id:string}):Promise<boolean>=>{
+            await axios.delete(`http://orders-service:3002/orders/${id}`);
+            return true;
+        }
     }
 }
