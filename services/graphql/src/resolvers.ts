@@ -107,7 +107,8 @@ export const resolvers = {
             if (orders && orders.length > 0) {
                 return response.data.map((product: Product) => ({ ...product, id: product.id }));
             } else return [] as Product[];
-        }
+        },
+        //... order query resolvers
     },
     Mutation: {
         createUser: async (_: any, { name, email }: { name: string, email: string }): Promise<User> => {
@@ -147,6 +148,11 @@ export const resolvers = {
             //Clear the cache for this user's orders after creating a new order
             orderLoader.clear(userId);
             return { ...orderResponse.data, products: nonNullProducts};
+        },
+        updateOrder: async(_:any,{id,status}:{id:string,status:string}):Promise<Order>=>{
+            const response = await axios.put(`http://orders-service:3002/orders/${id}`,{status});
+            const products = await productLoader.loadMany(response.data.productIds);
+            return { ...response.data,products};
         },
     }
 }
