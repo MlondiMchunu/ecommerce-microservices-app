@@ -1,4 +1,5 @@
 import { OrderEntity } from "./orderModel";
+import {Kafka} from 'kafkajs';
 var { AppDataSource } = require('./data-source');
 
 class OrderService {
