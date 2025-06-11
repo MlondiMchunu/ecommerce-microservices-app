@@ -30,5 +30,9 @@ const kafka = new Kafka({
 const consumer = kafka.consumer({groupId:'user-group'});
 const user = new UserService();
 
+const consumeOrderCreatedEvent = async():Promise<void>=>{
+    await consumer.connect();
+}
+
 
 export { UserService };
