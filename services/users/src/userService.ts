@@ -1,5 +1,5 @@
 const { User, UserModel } = require('./userModel');
-import {Kafka} from 'kafkajs';
+import { Kafka } from 'kafkajs';
 
 class UserService {
     async createUser(user: typeof User): Promise<typeof User> {
@@ -27,12 +27,21 @@ const kafka = new Kafka({
     brokers: ['kafka:9092'],
 });
 //groups allow multiple consumers to collaborate on processing messages from a topic
-const consumer = kafka.consumer({groupId:'user-group'});
+const consumer = kafka.consumer({ groupId: 'user-group' });
 const user = new UserService();
 
-const consumeOrderCreatedEvent = async():Promise<void>=>{
+const consumeOrderCreatedEvent = async (): Promise<void> => {
     await consumer.connect();
+    /*Subscribe to the 'order-created' topic.fromBeginning: true` means 
+    start reading from the earliest message if no offset is committed*/
+    await consumer.subscribe({ topic: 'order-created', fromBeginning: true })
+    await consumer.run({
+        eachMessage: async ({ message }) => {
+            const decodedMessage = message.value?.toString();
+        }
+    })
+
 }
 
 
-export { UserService };
+export { UserService, consumeOrderCreatedEvent };
