@@ -1,6 +1,7 @@
 const { User, UserModel } = require('./userModel');
 import { Kafka } from 'kafkajs';
 
+
 class UserService {
     async createUser(user: typeof User): Promise<typeof User> {
         const newUser = new UserModel(user);
@@ -18,6 +19,22 @@ class UserService {
     async deleteUser(id: string): Promise<boolean> {
         const result = await UserModel.findByIdAndDelete(id).exec();
         return result !== null;
+    }
+
+    /**this method adds an order ID to a specific user */
+    async addOrderToUser(id: string, orderId: string): Promise<typeof User | null> {
+        try {
+            //convert string `id` to MongoDB ObjectId
+            const objectId = new Types.objectId(id);
+            return await UserModel.findByIdAndUpdate(
+                objectId,
+                { $push: { orderIds: orderId } },//push the new order ID to the 'orders' array
+                { new: true }//return updated user
+            ).exec();
+        } catch (error) {
+            console.error('Error updating user with order ID : ', error);
+            return null; //return null or handle the error appropriately
+        }
     }
 }
 
