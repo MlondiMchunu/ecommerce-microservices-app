@@ -1,4 +1,11 @@
 const { User, UserModel } = require('./userModel');
+import {Kafka} from 'kafkajs';
+
+const kafka = new Kafka({
+    clientId: 'user-service',
+    brokers: ['kafka:9092'],
+})
+
 
 class UserService {
     async createUser(user: typeof User): Promise<typeof User> {
