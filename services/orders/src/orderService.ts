@@ -10,11 +10,12 @@ const kafka = new Kafka({
 const producer = kafka.producer();
 export const sendOrderCreatedEvent = async (order: OrderEntity): Promise<void> => {
     await producer.connect();
-    try{
+    try {
         const result = await producer.send({
             topic: 'order-created',
-            messages: [{value: JSON.stringify(order)}],
+            messages: [{ value: JSON.stringify(order) }],
         });
+        console.log('Message succesfully produced : ', result);
     }
 }
 
