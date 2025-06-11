@@ -1,13 +1,6 @@
 const { User, UserModel } = require('./userModel');
 import {Kafka} from 'kafkajs';
 
-const kafka = new Kafka({
-    clientId: 'user-service',
-    brokers: ['kafka:9092'],
-});
-const consumer = kafka.consumer({groupId:'user-group'});
-
-
 class UserService {
     async createUser(user: typeof User): Promise<typeof User> {
         const newUser = new UserModel(user);
@@ -27,5 +20,15 @@ class UserService {
         return result !== null;
     }
 }
+
+
+const kafka = new Kafka({
+    clientId: 'user-service',
+    brokers: ['kafka:9092'],
+});
+//groups allow multiple consumers to collaborate on processing messages from a topic
+const consumer = kafka.consumer({groupId:'user-group'});
+const user = new UserService();
+
 
 export { UserService };
