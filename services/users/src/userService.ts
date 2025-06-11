@@ -47,8 +47,8 @@ const consumeOrderCreatedEvent = async (): Promise<void> => {
                 } else {
                     console.warn('Invalid message: missing userId or orderId', order);
                 }
-            }catch(error){
-console.error('Failed to process message : ', error);
+            } catch (error) {
+                console.error('Failed to process message : ', error);
             }
         }
     })
