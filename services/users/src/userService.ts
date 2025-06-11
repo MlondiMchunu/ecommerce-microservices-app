@@ -4,7 +4,8 @@ import {Kafka} from 'kafkajs';
 const kafka = new Kafka({
     clientId: 'user-service',
     brokers: ['kafka:9092'],
-})
+});
+const consumer = kafka.consumer({groupId:'user-group'});
 
 
 class UserService {
