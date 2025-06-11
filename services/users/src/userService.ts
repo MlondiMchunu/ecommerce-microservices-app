@@ -28,7 +28,7 @@ const kafka = new Kafka({
 });
 //groups allow multiple consumers to collaborate on processing messages from a topic
 const consumer = kafka.consumer({ groupId: 'user-group' });
-const user = new UserService();
+const userService = new UserService();
 
 const consumeOrderCreatedEvent = async (): Promise<void> => {
     await consumer.connect();
@@ -38,6 +38,18 @@ const consumeOrderCreatedEvent = async (): Promise<void> => {
     await consumer.run({
         eachMessage: async ({ message }) => {
             const decodedMessage = message.value?.toString();
+            console.log(`Consumed message:`, decodedMessage);
+
+            try {
+                const order = JSON.parse(decodedMessage || '{}');
+                if (order.userId && order.id) {
+                    await userService.addOrderToUser(order.userId && order.id);
+                } else {
+                    console.warn('Invalid message: missing userId or orderId', order);
+                }
+            }catch(error){
+console.error('Failed to process message : ', error);
+            }
         }
     })
 
