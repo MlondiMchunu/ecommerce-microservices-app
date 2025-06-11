@@ -2,10 +2,16 @@ import { OrderEntity } from "./orderModel";
 import { Kafka } from 'kafkajs';
 var { AppDataSource } = require('./data-source');
 
+/**initialize a new kafka client**/
 const kafka = new Kafka({
     clientId: 'order-service',
     brokers: ['kafka:9092'],
 });
+const producer = kafka.producer();
+export const sendOrderCreatedEvent = async (order: OrderEntity): Promise<void> => {
+    await producer.connect();
+}
+
 
 class OrderService {
     private orderRepository = AppDataSource.getRepository(OrderEntity);
