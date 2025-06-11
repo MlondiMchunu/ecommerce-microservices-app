@@ -1,6 +1,11 @@
 import { OrderEntity } from "./orderModel";
-import {Kafka} from 'kafkajs';
+import { Kafka } from 'kafkajs';
 var { AppDataSource } = require('./data-source');
+
+const kafka = new Kafka({
+    clientId: 'order-service',
+    brokers: ['kafka:9092'],
+});
 
 class OrderService {
     private orderRepository = AppDataSource.getRepository(OrderEntity);
