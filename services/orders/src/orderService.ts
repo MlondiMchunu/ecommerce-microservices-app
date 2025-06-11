@@ -16,7 +16,10 @@ export const sendOrderCreatedEvent = async (order: OrderEntity): Promise<void> =
             messages: [{ value: JSON.stringify(order) }],
         });
         console.log('Message succesfully produced : ', result);
+    }catch(error){
+        console.error('Error Producing message: ', error);
     }
+    await producer.disconnect();
 }
 
 
