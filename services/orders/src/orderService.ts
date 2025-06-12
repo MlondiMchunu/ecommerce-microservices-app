@@ -1,5 +1,5 @@
 import { OrderEntity } from "./orderModel";
-import { Kafka } from 'kafkajs';
+import { Kafka, CompressionTypes } from 'kafkajs';
 var { AppDataSource } = require('./data-source');
 
 /**initialize a new kafka client**/
