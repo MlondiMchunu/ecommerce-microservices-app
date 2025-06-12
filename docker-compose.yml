@@ -5,7 +5,19 @@ services:
     ports: 
       - "2181:2181"
   
-  kafka:
+  kafka1: 
+    image: wurstmeister/kafka:latest
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-1:9092
+      KAFKA_DEFAULT_REPLICATION_FACTOR: 3
+      KAFKA_MIN_INSYNC_REPLICAS: 2
+    depends_on:
+      - zookeeper
+  kafka2:
     image: wurstmeister/kafka:latest
     ports:
       - "9092:9092"

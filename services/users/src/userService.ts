@@ -61,7 +61,7 @@ const consumeOrderCreatedEvent = async (): Promise<void> => {
             try {
                 const order = JSON.parse(decodedMessage || '{}');
                 if (order.userId && order.id) {
-                    await userService.addOrderToUser(order.userId && order.id);
+                    await userService.addOrderToUser(order.userId, order.id);
                 } else {
                     console.warn('Invalid message: missing userId or orderId', order);
                 }
