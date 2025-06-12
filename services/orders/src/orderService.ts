@@ -7,7 +7,11 @@ const kafka = new Kafka({
     clientId: 'order-service',
     brokers: ['kafka:9092'],
 });
-const producer = kafka.producer();
+const producer = kafka.producer({
+    transactionalId: 'order-transaction-id',
+    maxInFlightRequests: 1,
+    idempotent: true,
+});
 export const sendOrderCreatedEvent = async (order: OrderEntity): Promise<void> => {
     await producer.connect();
     try {
@@ -16,7 +20,7 @@ export const sendOrderCreatedEvent = async (order: OrderEntity): Promise<void> =
             messages: [{ value: JSON.stringify(order) }],
         });
         console.log('Message succesfully produced : ', result);
-    }catch(error){
+    } catch (error) {
         console.error('Error Producing message: ', error);
     }
     await producer.disconnect();
