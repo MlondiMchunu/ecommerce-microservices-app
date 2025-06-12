@@ -1,5 +1,6 @@
 const { User, UserModel } = require('./userModel');
 import { Kafka } from 'kafkajs';
+import { Types } from 'mongoose';
 
 
 class UserService {
@@ -25,7 +26,7 @@ class UserService {
     async addOrderToUser(id: string, orderId: string): Promise<typeof User | null> {
         try {
             //convert string `id` to MongoDB ObjectId
-            const objectId = new Types.objectId(id);
+            const objectId = new Types.ObjectId(id);
             return await UserModel.findByIdAndUpdate(
                 objectId,
                 { $push: { orderIds: orderId } },//push the new order ID to the 'orders' array
