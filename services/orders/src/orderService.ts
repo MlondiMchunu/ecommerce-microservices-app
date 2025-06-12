@@ -14,15 +14,20 @@ const producer = kafka.producer({
 });
 export const sendOrderCreatedEvent = async (order: OrderEntity): Promise<void> => {
     await producer.connect();
+    const transaction = await producer.transaction();
     try {
-        const result = await producer.send({
+        const result = await transaction.send({
             topic: 'order-created',
-            messages: [{ value: JSON.stringify(order) }],
+            messages: [{ key: order.id, value: JSON.stringify(order) }],//Partitioning
+            compression: CompressionTypes.GZIP,//Compression
         });
         console.log('Message succesfully produced : ', result);
+        await transaction.commit();
     } catch (error) {
-        console.error('Error Producing message: ', error);
+        console.error('Error producing message : ', error);
+        await transaction.abort();
     }
+
     await producer.disconnect();
 }
 
