@@ -4,7 +4,17 @@ services:
     image: wurstmeister/zookeeper:3.4.6
     ports: 
       - "2181:2181"
-  
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_SASL_ENABLED: "true"
+      ZOOKEEPER_ALLOW_ANONYMOUS_LOGIN: "false"
+      ZOOKEEPER_JAAS_LOGIN_RENEW: "3600000"
+      JVMFLAGS: "-Djava.security.auth.login.config=/etc/kafka/zookeeper_jaas.conf"
+      ZOO_CFG_EXTRA: "authProvider.1=org.apache.zookeeper.server.auth.SASLAuthenticationProvider sessionRequireClientSASLAuth=true"
+      volumes:
+        - ./kafka/zookeeper_jaas.conf:/etc/kafka/zookeeper_jaas.conf
+
   kafka1: 
     image: wurstmeister/kafka:latest
     ports:
