@@ -45,7 +45,29 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
     depends_on:
       - zookeeper
+  
+  #kafka3 service...
 
+  kafka-acl-setup:
+    image: wurstmeister/kafka:latest
+    depends_on:
+      - kafka1
+      - kafka2
+    environment:
+      KAFKA_OPTS: "-Djava.security.auth.login.config=/etc/kafka/kafka_server_jaas.conf"
+    volumes:
+      - ./kafka/kafka_server_jaas.conf:/etc/kafka/kafka_server_jaas.conf
+    command: >
+      bash -c "
+        echo 'Waiting for Kafka to be ready...'
+        sleep 30
+        kafka-topics.sh --create --if-not-exists --zookeeper zookeeper:2181 --topic order-created --partitions 3 --replication-factor 3
+        kafka-acls.sh --authorizer-properties zookeeper.connect=zookeeper:2181 --add --allow-principal User:order-service --producer --topic order-created
+        kafka-acls.sh --authorizer-properties zookeeper.connect=zookeeper:2181 --add --allow-principal User:user-service --consumer --topic order-created --group user-group
+        kafka-acls.sh --authorizer-properties zookeeper.connect=zookeeper:2181 --add --allow-principal User:kafka-exporter --operation Describe --group user-group
+        kafka-acls.sh --authorizer-properties zookeeper.connect=zookeeper:2181 --add --allow-principal User:kafka-exporter --operation Describe --topic order-created
+        echo 'ACLs have been set up.'
+      "
   postgres:
     image: postgres:13
     environment:
