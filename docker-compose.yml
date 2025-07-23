@@ -20,6 +20,7 @@ services:
     ports:
       - "9092:9092"
     environment:
+      KAFKA_LISTENERS: SSL://0.0.0.0:9092
       KAFKA_SASL_ENABLED_MECHANISMS: PLAIN
       KAFKA_SASL_MECHANISM_INTER_BROKER_PROTOCOL: PLAIN
       KAFKA_SECURITY_INTER_BROKER_PROTOCOL: SASL_PLAINTEXT
@@ -28,11 +29,16 @@ services:
       KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: "false"
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-1:9092
+      KAFKA_ADVERTISED_LISTENERS: SSL://kafka1:9092
       KAFKA_DEFAULT_REPLICATION_FACTOR: 3
       KAFKA_MIN_INSYNC_REPLICAS: 2
+      AFKA_SSL_KEYSTORE_LOCATION: /etc/kafka/secrets/kafka.keystore.jks
+      KAFKA_SSL_KEYSTORE_PASSWORD: kafka123
+      KAFKA_SSL_KEY_PASSWORD: kafka123
+      KAFKA_SSL_TRUSTSTORE_LOCATION: /etc/kafka/secrets/kafka.truststore.jks
+      KAFKA_SSL_TRUSTSTORE_PASSWORD: kafka123
     volumes:
-      - ./kafka-1-data:/var/lib/kafka/data
+      - ./kafka1-data:/var/lib/kafka/data
       - ./kafka/kafka_server_jaas.conf:/etc/kafka/kafka_server_jaas.conf
     depends_on:
       - zookeeper
