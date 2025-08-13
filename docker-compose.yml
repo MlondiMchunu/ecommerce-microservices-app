@@ -137,6 +137,55 @@ services:
       - ./kafka/ssl/orders-service-key.pem:/etc/kafka/secrets/orders-service-key.pem
       - ./kafka/ssl/orders-service-certificate.pem:/etc/kafka/secrets/orders-service-certificate.pem
 
+kafka-exporter:
+    image: danielqsj/kafka-exporter:latest
+    ports:
+      - "9308:9308"
+    command:
+      - '--kafka.server=kafka-1:9092'
+      - '--kafka.server=kafka-2:9093'
+      - '--kafka.server=kafka-3:9094'
+      - '--sasl.enabled'
+      - '--sasl.username=kafka-exporter'
+      - '--sasl.password=kafka-exporter-secret'
+      - '--sasl.mechanism=PLAIN'
+      - '--tls.enabled'
+      - '--tls.ca-file=/etc/kafka/secrets/ca-cert.pem'
+      - '--tls.cert-file=/etc/kafka/secrets/kafka-exporter-certificate.pem'
+      - '--tls.key-file=/etc/kafka/secrets/kafka-exporter-key.pem'
+      - '--tls.insecure-skip-tls-verify'
+      - '--topic.filter=^order-created$$'
+      - '--log.level=info'
+    volumes:
+      - ./kafka/ssl/ca-cert.pem:/etc/kafka/secrets/ca-cert.pem
+      - ./kafka/ssl/kafka-exporter-key.pem:/etc/kafka/secrets/kafka-exporter-key.pem
+      - ./kafka/ssl/kafka-exporter-certificate.pem:/etc/kafka/secrets/kafka-exporter-certificate.pem
+    depends_on:
+      - kafka-1
+      - kafka-2
+      - kafka-3
+    restart: always
+
+prometheus:
+  image: prom/prometheus:latest
+  volumes:
+    - ./prometheus.yml:/etc/prometheus/prometheus.yml
+  ports:
+    - "9090:9090"
+
+grafana:
+ image: grafana/grafana:latest
+ ports:
+ - "3000:3000"
+ depends_on:
+ - prometheus
+ environment:
+ - GF_SECURITY_ADMIN_PASSWORD=admin
+ volumes:
+ - grafana-storage:/var/lib/grafana
+ - ./kafka/grafana-provisioning/datasources:/etc/grafana/provisioning/datasources
+ - ./kafka/grafana-provisioning/dashboards:/etc/grafana/provisioning/dashboards
+
 volumes:
   postgres-data:
   mongo-inventory-data:
