@@ -1,6 +1,7 @@
 const { User, UserModel } = require('./userModel');
 import { Kafka } from 'kafkajs';
 import { Types } from 'mongoose';
+import { readFileSync } from 'fs';
 
 
 class UserService {
@@ -42,7 +43,18 @@ class UserService {
 
 const kafka = new Kafka({
     clientId: 'user-service',
-    brokers: ['kafka:9092'],
+    brokers: ['kafka1:9092','kafka2:9093'],
+    ssl:{
+        rejectUnauthorized:false,
+         ca: [readFileSync('/etc/kafka/secrets/ca-cert.pem', 'utf-8')],
+        key: readFileSync('/etc/kafka/secrets/users-service-key.pem', 'utf-8'), //orders-service-key.pem
+        cert: readFileSync('/etc/kafka/secrets/users-service-certificate.pem', 'utf-8'), //orders-service-certificate.pem
+},
+sasl: {
+    mechanism: 'plain',
+    username: 'user-service', //order-service
+    password: 'user-service-secret' //order-service-secret
+  }
 });
 //groups allow multiple consumers to collaborate on processing messages from a topic
 const consumer = kafka.consumer({ groupId: 'user-group' });

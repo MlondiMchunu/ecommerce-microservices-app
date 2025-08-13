@@ -5,7 +5,7 @@ var { AppDataSource } = require('./data-source');
 /**initialize a new kafka client**/
 const kafka = new Kafka({
     clientId: 'order-service',
-    brokers: ['kafka:9092'],
+    brokers: ['kafka1:9092','kafka2:9093'],
 });
 const producer = kafka.producer({
     transactionalId: 'order-transaction-id',
