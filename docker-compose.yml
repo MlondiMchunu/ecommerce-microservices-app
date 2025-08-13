@@ -115,6 +115,10 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: orders
+    volumes: 
+      - ./kafka/ssl/ca-cert.pem:/etc/kafka/secrets/ca-cert.pem
+      - ./kafka/ssl/orders-service-key.pem:/etc/kafka/secrets/orders-service-key.pem
+      - ./kafka/ssl/orders-service-certificate.pem:/etc/kafka/secrets/orders-service-certificate.pem
   inventory-service:
     build: ./services/inventory
     ports:
@@ -127,6 +131,12 @@ services:
       - "3003:3003"
     depends_on:
       - mongo-users
+
+    volumes:
+      - ./kafka/ssl/ca-cert.pem:/etc/kafka/secrets/ca-cert.pem
+      - ./kafka/ssl/orders-service-key.pem:/etc/kafka/secrets/orders-service-key.pem
+      - ./kafka/ssl/orders-service-certificate.pem:/etc/kafka/secrets/orders-service-certificate.pem
+
 volumes:
   postgres-data:
   mongo-inventory-data:
