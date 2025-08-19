@@ -20,5 +20,5 @@ const ProductSchema: typeof Schema = new Schema({
     }
 })
 
-export const ProductModel = mongoose.model('Product', ProductSchema);
+const ProductModel = mongoose.model('Product', ProductSchema);
 
